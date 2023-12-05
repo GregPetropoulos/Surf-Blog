@@ -482,6 +482,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -633,43 +677,106 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiInfoBlockInfoBlock extends Schema.CollectionType {
+  collectionName: 'info_blocks';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
+    singularName: 'info-block';
+    pluralName: 'info-blocks';
+    displayName: 'infoBlock';
     description: '';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
+    headline: Attribute.String & Attribute.Required;
+    text: Attribute.Blocks & Attribute.Required;
+    image: Attribute.Media & Attribute.Required;
+    showImageRight: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    button: Attribute.Component<'info-block.button'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::info-block.info-block',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::info-block.info-block',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInfoblocksExperienceInfoblocksExperience
+  extends Schema.SingleType {
+  collectionName: 'infoblocks_experiences';
+  info: {
+    singularName: 'infoblocks-experience';
+    pluralName: 'infoblocks-experiences';
+    displayName: 'infoblocks-experience';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    info_blocks: Attribute.Relation<
+      'api::infoblocks-experience.infoblocks-experience',
+      'oneToMany',
+      'api::info-block.info-block'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::infoblocks-experience.infoblocks-experience',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::infoblocks-experience.infoblocks-experience',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInfoblocksLandingInfoblocksLanding
+  extends Schema.SingleType {
+  collectionName: 'infoblocks_landings';
+  info: {
+    singularName: 'infoblocks-landing';
+    pluralName: 'infoblocks-landings';
+    displayName: 'infoblocks-landing';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    info_blocks: Attribute.Relation<
+      'api::infoblocks-landing.infoblocks-landing',
+      'oneToMany',
+      'api::info-block.info-block'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::infoblocks-landing.infoblocks-landing',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::infoblocks-landing.infoblocks-landing',
       'oneToOne',
       'admin::user'
     > &
@@ -689,10 +796,13 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::info-block.info-block': ApiInfoBlockInfoBlock;
+      'api::infoblocks-experience.infoblocks-experience': ApiInfoblocksExperienceInfoblocksExperience;
+      'api::infoblocks-landing.infoblocks-landing': ApiInfoblocksLandingInfoblocksLanding;
     }
   }
 }
