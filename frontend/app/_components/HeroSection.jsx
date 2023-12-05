@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 const HeroSection = ({ imageSrc, headline, theme = 'turquoise' }) => {
   return (
     <section className='hero'>
