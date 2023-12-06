@@ -1,4 +1,6 @@
 import FeaturedArticle from './FeaturedArticle';
+
+
 const FeaturedItems = ({ headline, items }) => {
   return (
     <section className='featured-items'>

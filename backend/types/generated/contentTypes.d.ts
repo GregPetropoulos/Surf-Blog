@@ -677,6 +677,43 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiBlogArticleBlogArticle extends Schema.CollectionType {
+  collectionName: 'blog_articles';
+  info: {
+    singularName: 'blog-article';
+    pluralName: 'blog-articles';
+    displayName: 'blog-article';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    headline: Attribute.String;
+    excerpt: Attribute.Text & Attribute.Required;
+    featuredImage: Attribute.Media & Attribute.Required;
+    slug: Attribute.String & Attribute.Required & Attribute.Unique;
+    author: Attribute.String & Attribute.Required;
+    isHighlightArticle: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::blog-article.blog-article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::blog-article.blog-article',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiInfoBlockInfoBlock extends Schema.CollectionType {
   collectionName: 'info_blocks';
   info: {
@@ -800,6 +837,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::blog-article.blog-article': ApiBlogArticleBlogArticle;
       'api::info-block.info-block': ApiInfoBlockInfoBlock;
       'api::infoblocks-experience.infoblocks-experience': ApiInfoblocksExperienceInfoblocksExperience;
       'api::infoblocks-landing.infoblocks-landing': ApiInfoblocksLandingInfoblocksLanding;

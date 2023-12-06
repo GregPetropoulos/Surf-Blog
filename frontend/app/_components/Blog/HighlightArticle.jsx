@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 const HighlightArticle = ({ data }) => {
   const { headline, excerpt, featuredImage, slug } = data;
-
   return (
     <article className='highlight-article'>
       <div className='highlight-article__info'>

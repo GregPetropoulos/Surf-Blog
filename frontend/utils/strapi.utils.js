@@ -32,3 +32,14 @@ export const processInfoBlockData = (rawData) => {
     };
   });
 };
+
+export const processBlogData = (rawData) => {
+  return rawData
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    .map((article) => ({
+      ...article.attributes,
+      id: article.id,
+      featuredImage:
+        STRAPI_BASE_URL + article.attributes.featuredImage.data.attributes.url
+    }));
+};
