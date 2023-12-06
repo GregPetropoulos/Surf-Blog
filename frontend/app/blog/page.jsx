@@ -1,5 +1,5 @@
 import HighlightArticle from '../_components/Blog/HighlightArticle';
-
+import SubscribeToNewsletter from '../_components/Blog/SubscribeToNewsletter';
 const Page = () => {
   const highlightArticleData = {
     headline: '3 tips for a super fast takeoff',
@@ -19,6 +19,7 @@ const Page = () => {
   return (
     <main className='blog-page'>
       <HighlightArticle data={highlightArticleData} />
+      <SubscribeToNewsletter />
     </main>
   );
 };
