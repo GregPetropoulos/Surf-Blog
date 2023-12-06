@@ -1,5 +1,6 @@
 import HighlightArticle from '../_components/Blog/HighlightArticle';
 import SubscribeToNewsletter from '../_components/Blog/SubscribeToNewsletter';
+import FeaturedItems from '../_components/FeaturedItems/FeaturedItems';
 const Page = () => {
   const highlightArticleData = {
     headline: '3 tips for a super fast takeoff',
@@ -16,10 +17,57 @@ const Page = () => {
     slug: 'takeoff',
     featuredImage: '/assets/hero-experience.png'
   };
+
+  const featuredItemsData = [
+    {
+      headline: `surfboard shaping and 
+      design behind the scenes of crafting the perfect board  surfboard shaping and 
+  design behind the scenes of crafting the perfect board `,
+      slug: 'blog/1',
+      date: 'Monday, June 05, 2023',
+      featuredImage: '/assets/hero-experience.png'
+    },
+    {
+      headline: `surfboard shaping and 
+  design behind the scenes of crafting the perfect board `,
+      slug: 'blog/2',
+      date: 'Monday, June 05, 2023',
+      featuredImage: '/assets/hero-experience.png'
+    },
+    {
+      headline: `surfboard shaping and 
+  design behind the scenes of crafting the perfect board `,
+      slug: 'blog/3',
+      date: 'Monday, June 05, 2023',
+      featuredImage: '/assets/hero-experience.png'
+    },
+    {
+      headline: `surfboard shaping and 
+  design behind the scenes of crafting the perfect board `,
+      slug: 'blog/4',
+      date: 'Monday, June 05, 2023',
+      featuredImage: '/assets/hero-experience.png'
+    },
+    {
+      headline: `surfboard shaping and 
+  design behind the scenes of crafting the perfect board `,
+      slug: 'blog/5',
+      date: 'Monday, June 05, 2023',
+      featuredImage: '/assets/hero-experience.png'
+    },
+    {
+      headline: `surfboard shaping and 
+  design behind the scenes of crafting the perfect board `,
+      slug: 'blog/6',
+      date: 'Monday, June 05, 2023',
+      featuredImage: '/assets/hero-experience.png'
+    }
+  ];
   return (
     <main className='blog-page'>
       <HighlightArticle data={highlightArticleData} />
       <SubscribeToNewsletter />
+      <FeaturedItems items={featuredItemsData} />
     </main>
   );
 };
