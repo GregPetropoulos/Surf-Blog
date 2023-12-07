@@ -15,7 +15,6 @@ const Home = async () => {
       <h1>success.</h1>
     </>
   );
-  console.log(formattedData);
   return (
     <main>
       <HeroSection headline={heroHeadline} />
