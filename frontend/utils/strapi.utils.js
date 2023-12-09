@@ -36,12 +36,16 @@ export const processInfoBlockData = (rawData) => {
 export const processBlogData = (rawData) => {
   return rawData
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
-    .map((article) => ({
+    .map((article) => {
+    //  console.log("TEST",article.attributes.articleContent) 
+      return {
       ...article.attributes,
       id: article.id,
       featuredImage:
-        STRAPI_BASE_URL + article.attributes.featuredImage.data.attributes.url
-    }));
+        STRAPI_BASE_URL + article.attributes.featuredImage.data.attributes.url,
+        articleContent: article.attributes.articleContent,
+    }
+  });
 };
 
 export const formatDate = (dateString) => {
