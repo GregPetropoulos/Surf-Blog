@@ -1,4 +1,5 @@
 import ArticleIntro from '@/app/_components/Blog/ArticleIntro';
+import ArticleOverview from '@/app/_components/Blog/ArticleOverview';
 import { fetchStrapiData, processBlogData } from '@/utils/strapi.utils';
 
 const Page = async ({ params }) => {
@@ -19,6 +20,10 @@ const Page = async ({ params }) => {
         <ArticleIntro key={article.id} article={article} />
       ))} */}
       <ArticleIntro  article={articleSlug}/>
+      <section className='article-section'>
+
+      <ArticleOverview article={articleSlug}/>
+      </section>
     </main>
   );
 };
