@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 
 const ArticleOverview = ({ article }) => {
   const headlines = article.articleContent.filter(
