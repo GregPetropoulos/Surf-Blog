@@ -37,19 +37,23 @@ export const processBlogData = (rawData) => {
   return rawData
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
     .map((article) => {
-    //  console.log("TEST",article.attributes.articleContent) 
+      //  console.log("TEST",article.attributes.articleContent)
       return {
-      ...article.attributes,
-      id: article.id,
-      featuredImage:
-        STRAPI_BASE_URL + article.attributes.featuredImage.data.attributes.url,
-        articleContent: article.attributes.articleContent,
-    }
-  });
+        ...article.attributes,
+        id: article.id,
+        featuredImage:
+          STRAPI_BASE_URL +
+          article.attributes.featuredImage.data.attributes.url,
+        articleContent: article.attributes.articleContent
+      };
+    });
 };
 
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   const options = { year: 'numeric', month: 'long', day: '2-digit' };
   return date.toLocaleDateString('en-US', options);
+};
+export const extractImageUrl = (imageData) => {
+  return STRAPI_BASE_URL + imageData?.data?.attributes?.url;
 };
