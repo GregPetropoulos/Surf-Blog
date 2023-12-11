@@ -1,3 +1,4 @@
+import BlogPreview from './_components/BlogPreview/BlogPreview';
 import HeroSection from './_components/HeroSection';
 import InfoBlock from './_components/InfoBlock';
 import { fetchStrapiData, processInfoBlockData } from '@/utils/strapi.utils';
@@ -21,6 +22,7 @@ const Home = async () => {
       {formattedData.map((cleanData) => (
         <InfoBlock key={cleanData.id} data={cleanData} />
       ))}
+      <BlogPreview />
     </main>
   );
 };
