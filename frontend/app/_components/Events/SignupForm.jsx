@@ -3,9 +3,11 @@ import { useState } from 'react';
 import TextInput from '../TextInput';
 import axios from 'axios';
 import { checkAllFormFieldsFilledIn } from '@/utils/validation.utils';
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { generateSignupPayload } from '@/utils/strapi.utils';
 
 // NEED FORM VALIDATION --PHONE
-const SignupForm = ({ infoText, headline, buttonLabel }) => {
+const SignupForm = ({ infoText, headline, buttonLabel, pricing, eventId=null }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,7 +16,6 @@ const SignupForm = ({ infoText, headline, buttonLabel }) => {
   });
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const onChange = (e) => {
@@ -23,16 +24,13 @@ const SignupForm = ({ infoText, headline, buttonLabel }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      data: { ...formData, isGeneralInterest: true }
-    };
     if (checkAllFormFieldsFilledIn(formData)) {
+      const payload = generateSignupPayload(formData, eventId)
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/api/participants`,
           payload
         );
-        console.log(response);
         if (response.statusText === 'OK') {
           setShowConfirmation(true);
         } else {
@@ -52,11 +50,30 @@ const SignupForm = ({ infoText, headline, buttonLabel }) => {
       setErrorMessage('Please fill out all fields');
     }
   };
+
+  const renderInfoTextFromStrapiOrComponent = () => {
+    if (Object.keys(infoText[0].type).length > 1) {
+      return (
+        <BlocksRenderer
+          content={infoText}
+          blocks={{
+            paragraph: ({ children }) => (
+              <p className='copy article-paragraph'>{children}</p>
+            ),
+            'list-item': ({ children }) => (
+              <li className='copy article-paragraph__list'>{children}</li>
+            )
+          }}
+        />
+      );
+    }
+    return infoText;
+  };
   return (
     <section className='signup-form'>
       <div className='signup-form__info'>
         <h3 className='signup-form__headline'>{headline || 'Events'}</h3>
-        {infoText}
+        {renderInfoTextFromStrapiOrComponent()}
       </div>
       {showConfirmation ? (
         <div className='signup-form__form'>
@@ -96,6 +113,19 @@ const SignupForm = ({ infoText, headline, buttonLabel }) => {
           <button type='submit' className='btn btn--medium btn--turquoise'>
             {buttonLabel || 'Stay in touch!'}
           </button>
+          {pricing && (
+            <div className='signup-form__pricing'>
+              <h3>Pricing</h3>
+              <p className='copy'>
+                Single Room:{' '}
+                <span className='bold'>{pricing.singlePrice}€ per person </span>
+              </p>
+              <p className='copy'>
+                Shared Room:{' '}
+                <span className='bold'>{pricing.sharedPrice}€ per person</span>
+              </p>
+            </div>
+          )}
         </form>
       )}
     </section>

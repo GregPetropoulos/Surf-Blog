@@ -37,7 +37,6 @@ export const processBlogData = (rawData) => {
   return rawData
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
     .map((article) => {
-      //  console.log("TEST",article.attributes.articleContent)
       return {
         ...article.attributes,
         id: article.id,
@@ -48,12 +47,40 @@ export const processBlogData = (rawData) => {
       };
     });
 };
-
+export const processEventsData = (rawData) => {
+  const parsedRichTextChildren = rawData.attributes?.description.map(
+    (richText) => ({
+      type: richText.type,
+      children: richText?.children.map((item) => item)
+    })
+  );
+  return {
+    ...rawData.attributes,
+    id: rawData.id,
+    description: parsedRichTextChildren
+  };
+};
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
-  const options = {weekday:'long', year: 'numeric', month: 'long', day: '2-digit' };
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit'
+  };
   return date.toLocaleDateString('en-US', options);
 };
 export const extractImageUrl = (imageData) => {
   return STRAPI_BASE_URL + imageData?.data?.attributes?.url;
+};
+
+export const generateSignupPayload = (formData, eventId) => {
+  if (!eventId) {
+    return { data: { ...formData, isGeneralInterest: true } };
+  } else {
+    // Connecting the payload to the event via connect from strapi and event id
+    return {
+      data: { ...formData, event: { connect: [eventId] } }
+    };
+  }
 };

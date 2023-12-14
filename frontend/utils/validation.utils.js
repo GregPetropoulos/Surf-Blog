@@ -3,20 +3,15 @@ return Object.keys(formData).every(key=> formData[key].trim().length>0)
 }
 
 export const  phoneValidation = (phoneNumber)=> {
-    // const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    // return phoneNumber.value.match(phoneRegex)? true : false
-    //The above script matches:
-// XXX-XXX-XXXX
-// XXX.XXX.XXXX
-// XXX XXX XXXX
 
-
-
-    const phoneRegex=/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/
+    const phoneRegex=/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
     return phoneRegex.test(phoneNumber)
   }
 //The above script matches:
-// (123) 456-7890
-// (123)456-7890
-// 123-456-7890
-// 1234567890
+// +919367788755
+// 8989829304
+// +16308520397
+// 786-307-3615
+// (509)-389-1748
+// (509)389-1748
+// 509.389.1748

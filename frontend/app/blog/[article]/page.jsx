@@ -34,10 +34,14 @@ export default Page;
 
 //Generates a page based of slug and passes params to the page
 export const generateStaticParams = async () => {
-  const articles = await fetchStrapiData('/blog-articles');
-  return articles.map((article) => ({
-    article: article?.attributes?.slug
-  }));
+  try {
+    const articles = await fetchStrapiData('/blog-articles');
+    return articles.map((article) => ({
+      article: article?.attributes?.slug
+    }));
+  } catch (err) {
+    console.error(`Error in fetching articles slugs: ${err}`);
+  }
 };
 //Needed for after the build it can get fresh updates every 300 seconds
 export const revalidate = 300;
