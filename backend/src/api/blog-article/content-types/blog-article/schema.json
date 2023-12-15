@@ -4,7 +4,8 @@
   "info": {
     "singularName": "blog-article",
     "pluralName": "blog-articles",
-    "displayName": "blog-article"
+    "displayName": "blog-article",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,12 +20,12 @@
       "required": true
     },
     "featuredImage": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "slug": {
       "type": "string",
@@ -39,6 +40,25 @@
     "isHighlightArticle": {
       "type": "boolean",
       "default": false,
+      "required": true
+    },
+    "articleContent": {
+      "type": "dynamiczone",
+      "components": [
+        "blog-article.headline",
+        "blog-article.paragraph-with-image",
+        "blog-article.paragraph",
+        "blog-article.landscape-image"
+      ]
+    },
+    "textColor": {
+      "type": "enumeration",
+      "enum": [
+        "white",
+        "black",
+        "turquoise "
+      ],
+      "default": "black",
       "required": true
     }
   }

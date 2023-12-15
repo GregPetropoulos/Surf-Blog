@@ -7,6 +7,7 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import { generateSignupPayload } from '@/utils/strapi.utils';
 
 // NEED FORM VALIDATION --PHONE
+// Use refs imp
 const SignupForm = ({ infoText, headline, buttonLabel, pricing, eventId=null }) => {
   const [formData, setFormData] = useState({
     firstName: '',

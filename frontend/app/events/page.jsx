@@ -1,6 +1,9 @@
+import { fetchAllEvents } from '@/utils/strapi.utils';
 import SignupForm from '../_components/Events/SignupForm';
+import FeaturedItems from '../_components/FeaturedItems/FeaturedItems';
 
-const Page = () => {
+const Page = async () => {
+  const allEvents = await fetchAllEvents();
   const buttonLabel = 'Stay in touch!';
   const headline = 'You want to stay tuned for our events?';
   const infoText = (
@@ -49,6 +52,11 @@ const Page = () => {
         infoText={infoText}
         buttonLabel={buttonLabel}
         headline={headline}
+      />
+      <FeaturedItems
+        items={allEvents}
+        itemType='event'
+        headline='Upcoming camps & events'
       />
     </main>
   );

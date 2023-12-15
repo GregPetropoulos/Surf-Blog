@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'qs';
 
 const STRAPI_BASE_URL = process.env.STRAPI_BASE_URL || 'http://127.0.0.1:1337';
 
@@ -57,7 +58,9 @@ export const processEventsData = (rawData) => {
   return {
     ...rawData.attributes,
     id: rawData.id,
-    description: parsedRichTextChildren
+    description: parsedRichTextChildren,
+    image:
+      `${STRAPI_BASE_URL}` + rawData?.attributes?.image?.data?.attributes?.url
   };
 };
 export const formatDate = (dateString) => {
@@ -83,4 +86,31 @@ export const generateSignupPayload = (formData, eventId) => {
       data: { ...formData, event: { connect: [eventId] } }
     };
   }
+};
+
+// qs implementation
+
+const createEventQuery = (eventIdToExclude) => {
+  const queryObject = {
+    pagination: { start: 0, limit: 12 },
+    populate: { image: { populate: '*' } },
+    sort: ['startingDate:asc'],
+    filters: {
+      startingDate: {
+        $gt: new Date()
+      }
+    }
+  };
+  if (eventIdToExclude) {
+    // Adding an id property to query object to check for id thats is not equal to the eventIdToExclude passed in
+    queryObject.filters.id = { $ne: eventIdToExclude };
+  }
+  return qs.stringify(queryObject, {
+    encodeValuesOnly: true // prettify URL
+  });
+};
+export const fetchAllEvents = async (eventIdToExclude = null) => {
+  const query = createEventQuery(eventIdToExclude)
+  const response = await axios.get(`${STRAPI_BASE_URL}/api/events?${query}`);
+  return response.data.data.map((event) => processEventsData(event));
 };
