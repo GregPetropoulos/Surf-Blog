@@ -6,6 +6,10 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+/** CSS RESPONSIVE DEBUGGER */
+ /** {
+  border: 1px solid blue !important;
+} */
 
 body {
   background-color: $light-beige;
@@ -44,7 +48,7 @@ html {
 }
 
 // Setting root rem for consistency through the different views
-html {
+ html {
   font-size: 62.5%; // 1rem = 10px; 10px/16px = 62.5%
 
   @include respond(tab-land) {
